@@ -1,0 +1,113 @@
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+
+
+<MyLabel@Label>:
+    theme_text_color: "Primary"
+    color: get_color_from_hex('#923ddb')
+
+
+<MyGrid@GridLayout>:
+    cols: 2
+    rows: 2
+    #padding: 10
+    #spacing: 10
+
+    md_bg_color: 0, 0, 0, 0
+
+<TestClassCheck@CheckBox>:
+    group: 'test_class'
+    size_hint: None, None
+    size: dp(48), dp(48)
+
+<ActionTypeCheck@CheckBox>:
+    group: 'action_type'
+    size_hint: None, None
+    size: dp(48), dp(48)
+<Controller>:
+    #:set y_base .28
+    #:set y_offset .13
+    FloatLayout:
+        TextInput:
+            id: test_location
+            pos_hint: {"center_x": .5, "center_y": 5*y_offset+y_base}
+            size_hint: .6, .1
+            hint_text: "Location of Test (press 'Enter')"
+            helper_text: "One location must be selected "
+            helper_text_mode: "on_error"
+            #on_focus: if self.focus: root.menu.open()
+            on_text_validate: root.set_error_message(self)
+            #on_focus: root.set_error_message(self)
+        TextInput:
+            id: licence_number
+            pos_hint: {"center_x": .5, "center_y": 4*y_offset+y_base}
+            size_hint: .6, .1
+            hint_text: "Licence Number (press 'Enter')"
+            helper_text: "The length must be 15 characters "
+            helper_text_mode: "on_error"
+            max_text_length: 15
+            on_text_validate: root.set_error_message(self)
+            on_focus: root.set_error_message(self)
+
+        TextInput
+            id: licence_expiry
+            pos_hint: {"center_x": .5, "center_y": 3*y_offset+y_base}
+            size_hint: .6, .1
+            hint_text: "Licence Expiry Date (press 'Enter')"
+            helper_text: "The length must be 8 characters "
+            helper_text_mode: "on_error"
+            max_text_length: 8
+            on_text_validate: root.set_error_message(self)
+            on_focus: root.set_error_message(self)
+
+        TextInput
+            pos_hint: {"center_x": .5, "center_y": 2*y_offset+y_base}
+            size_hint: .6, .1
+            id: interval_day
+            hint_text: "Interval Day (press 'Enter')"
+            helper_text: "Enter interval day "
+            helper_text_mode: "on_error"
+            on_text_validate: root.set_error_message(self)
+            on_focus: root.set_error_message(self)
+
+        MyLabel:
+            pos_hint: {"center_x": .3, "center_y": y_offset+y_base}
+            text: 'G'
+            width: 10
+        TestClassCheck:
+            id: road_test_class_G
+            active: True
+            pos_hint: {"center_x": .35, "center_y": y_offset+y_base}
+
+        MyLabel:
+            text: 'G2'
+            pos_hint: {"center_x": .59, "center_y": y_offset+y_base}
+        TestClassCheck:
+            pos_hint: {"center_x": .65, "center_y": y_offset+y_base}
+            id: road_test_class_G2
+
+        MyLabel:
+            pos_hint: {"center_x": .28, "center_y": y_base}
+            text: 'New'
+        ActionTypeCheck:
+            pos_hint: {"center_x": .35, "center_y": y_base}
+            id: new_road_test
+            group: "action_type"
+            active: True
+        MyLabel:
+            size: self.texture_size
+            pos_hint: {"center_x": .52, "center_y": y_base}
+            text: 'Reschedule'
+        ActionTypeCheck:
+            id: reschedule_road_test
+            pos_hint: {"center_x": .65, "center_y": y_base}
+            group: "action_type"
+
+        Button:
+            id: booking_btn
+            size_hint: .5, .1
+            pos_hint: {"center_x": .5, "center_y": .1}
+            text: "Booking"
+            font_size: "18sp"
+            bold: True
+            line_color: get_color_from_hex("#480b7d")
+            on_press: root.booking(root.ids.test_location, root.ids.licence_number, root.ids.licence_expiry, root.ids.interval_day)
